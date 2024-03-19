@@ -25,7 +25,7 @@ git clone
 spring.datasource.url=jdbc:postgresql://localhost:5432/veteriner
 spring.datasource.username=your_username
 spring.datasource.password=your_password
-```
+``` 
 3. Uygulama başladıktan sonra tarayıcınızdan http://localhost:8080/ adresine giderek ve istenen endpointleri yazarak API dokümantasyonunu görüntüleyebilirsiniz.
 
 

@@ -30,15 +30,16 @@ public class CustomerController {
     //DEĞERLENDİRME FORMU 10
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Customer customer) {
-        if (customer.getPhone() == null || customer.getPhone().isEmpty() ||
-                customer.getAddress() == null ||customer.getAddress().isEmpty() ||
-                customer.getName() == null ||customer.getName().isEmpty() ||
-                customer.getCity() == null ||customer.getCity().isEmpty() ||
-                customer.getMail() == null ||customer.getMail().isEmpty()
-        ) {
-            throw new IllegalArgumentException("Müşteriye ait alanlar boş olamaz.");
-        }
+
         try {
+            if (customer.getPhone() == null || customer.getPhone().isEmpty() ||
+                    customer.getAddress() == null ||customer.getAddress().isEmpty() ||
+                    customer.getName() == null ||customer.getName().isEmpty() ||
+                    customer.getCity() == null ||customer.getCity().isEmpty() ||
+                    customer.getMail() == null ||customer.getMail().isEmpty()
+            ) {
+                throw new IllegalArgumentException("Müşteriye ait alanlar boş olamaz.");
+            }
             if (customerRepo.existsByPhone(customer.getPhone())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bu telefon numarasına sahip müşteri zaten mevcut.");
             }
