@@ -80,7 +80,7 @@ public class AnimalController {
             Animal animalToUpdate = optionalAnimal.get();
 
             // Hayvanın yeni bilgilerini set et
-            animalToUpdate.setName(animalRequest.getName());
+
             animalToUpdate.setBreed(animalRequest.getBreed());
             animalToUpdate.setGender(animalRequest.getGender());
             animalToUpdate.setSpecies(animalRequest.getSpecies());
@@ -108,6 +108,7 @@ public class AnimalController {
                     .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı!"));
 
             // Hayvana yeni müşteriyi ata
+            animalToUpdate.setName(animalRequest.getName());
             animalToUpdate.setCustomer(customer);
 
             AnimalRequest convertedAnimal = animalService.convertToAnimalRequest(animalToUpdate);
