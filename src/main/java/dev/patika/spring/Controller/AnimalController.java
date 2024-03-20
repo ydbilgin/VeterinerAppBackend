@@ -70,7 +70,6 @@ public class AnimalController {
 
             // Güncellenecek hayvanı id'ye göre bul
             Optional<Animal> optionalAnimal = animalRepo.findById(id);
-            Animal checkAnimal = optionalAnimal.get();
 
             if (!optionalAnimal.isPresent()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bu ID'de bir hayvan bulunamadı.");
@@ -78,6 +77,8 @@ public class AnimalController {
 
             // Güncellenecek hayvanı al
             Animal animalToUpdate = optionalAnimal.get();
+            Optional<Customer> optionalCustomer = customerRepo.findById(animalRequest.getCustomer().getId());
+            Customer customer = optionalCustomer.get();
 
             // Hayvanın yeni bilgilerini set et
 
@@ -92,7 +93,7 @@ public class AnimalController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Müşteri bilgisi eksik veya geçersiz.");
             }
 
-            if (!(animalToUpdate.getName().equals(animalRequest.getName())) || !(animalToUpdate.getCustomer().getName().equals(animalRequest.getCustomer().getName()))) {
+            if (!(animalToUpdate.getName().equals(animalRequest.getName())) || !(animalToUpdate.getCustomer().getName().equals(customer.getName()))) {
                 if (animalRepo.existsByNameAndCustomer(animalRequest.getName(), animalRequest.getCustomer())) {
                     throw new IllegalArgumentException("Bu müşteriye ait aynı isimde bir hayvan zaten var.");
                 }
