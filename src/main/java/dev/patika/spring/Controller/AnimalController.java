@@ -78,7 +78,9 @@ public class AnimalController {
             // Güncellenecek hayvanı al
             Animal animalToUpdate = optionalAnimal.get();
             Optional<Customer> optionalCustomer = customerRepo.findById(animalRequest.getCustomer().getId());
-            Customer customer42 = optionalCustomer.get();
+            // Belirtilen müşteriyi al
+            Customer customer = customerRepo.findById(animalRequest.getCustomer().getId())
+                    .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı!"));
 
             // Hayvanın yeni bilgilerini set et
 
@@ -93,7 +95,7 @@ public class AnimalController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Müşteri bilgisi eksik veya geçersiz.");
             }
 
-            if (!(animalToUpdate.getName().equals(animalRequest.getName())) || !(animalToUpdate.getCustomer().getName().equals(customer42.getName()))) {
+            if (!(animalToUpdate.getName().equals(animalRequest.getName())) || !(animalToUpdate.getCustomer().getName().equals(customer.getName()))) {
                 if (animalRepo.existsByNameAndCustomer(animalRequest.getName(), animalRequest.getCustomer())) {
                     throw new IllegalArgumentException("Bu müşteriye ait aynı isimde bir hayvan zaten var.");
                 }
@@ -104,9 +106,7 @@ public class AnimalController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Belirtilen ID'de bir müşteri bulunmuyor.");
             }
 
-            // Belirtilen müşteriyi al
-            Customer customer = customerRepo.findById(animalRequest.getCustomer().getId())
-                    .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı!"));
+
 
             // Hayvana yeni müşteriyi ata
             animalToUpdate.setName(animalRequest.getName());
