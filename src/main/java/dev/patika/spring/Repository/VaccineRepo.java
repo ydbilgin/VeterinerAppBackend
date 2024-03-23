@@ -26,12 +26,31 @@ public interface VaccineRepo extends JpaRepository<Vaccine, Long> {
             @Param("code") String code
     );
 
+    //DEĞİŞTİ
+    List<Vaccine> findByAnimal_IdAndNameAndCode(Long id , String name , String code);
+
     List<Vaccine> findByAnimalIdAndNameAndCodeAndIdNot(Long animalId, String name, String code, Long id);
+
+
 
     @Query("SELECT DISTINCT v.animal FROM Vaccine v WHERE v.protectionFinishDate BETWEEN :startDate AND :endDate")
     List<Animal> findAnimalsWithExpiringVaccines(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+
+
+    List<Vaccine> findByProtectionFinishDateBetween(LocalDate startDate, LocalDate endDate);
+
+    List<Vaccine> findByProtectionFinishDateAfter(LocalDate startDate);
+    List<Vaccine> findByProtectionFinishDateBefore(LocalDate endDate);
+
+
+    List<Vaccine> findByAnimal_NameLikeIgnoreCase(String name);
+
+
+
+
 
 
 }

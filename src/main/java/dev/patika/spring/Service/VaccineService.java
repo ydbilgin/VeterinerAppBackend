@@ -38,6 +38,10 @@ public class VaccineService {
         return vaccineRepository.findAnimalsWithExpiringVaccines(startDate, endDate);
     }
 
+    public List<Vaccine> getExpiringVaccines(LocalDate startDate, LocalDate endDate) {
+        return vaccineRepository.findByProtectionFinishDateBetween(startDate, endDate);
+    }
+
     //aşı kaydetme
     public VaccineResponse saveVaccine(VaccineRequest vaccineRequest) {
         if (vaccineRequest.getReport() == null || vaccineRequest.getName() == null ||
@@ -61,7 +65,7 @@ public class VaccineService {
                 .orElseThrow(() -> new RuntimeException("Belirtilen ID'ye sahip rapor bulunamadı."));
         vaccine.setReport(report);
 
-        List<Vaccine> vaccines = vaccineRepository.findByAnimalIdAndNameAndCode(vaccineRequest.getAnimal().getId(),vaccineRequest.getName(),vaccineRequest.getCode());
+        List<Vaccine> vaccines = vaccineRepository.findByAnimal_IdAndNameAndCode(vaccineRequest.getAnimal().getId(),vaccineRequest.getName(),vaccineRequest.getCode());
 
         if (!vaccines.isEmpty()) {
             throw new RuntimeException("Aynı tarihlerde aynı hayvana aynı aşıyı tekrar ekleyemezsiniz.");

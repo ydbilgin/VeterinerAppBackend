@@ -2,6 +2,7 @@ package dev.patika.spring.Repository;
 
 import dev.patika.spring.Entity.Animal;
 import dev.patika.spring.Entity.Appointment;
+import dev.patika.spring.Entity.Vaccine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,14 @@ public interface AppointmentRepo extends JpaRepository<Appointment,Long> {
     Optional<Appointment> findByAppointmentDateAndDoctor_IdAndAnimal_Id(LocalDateTime appointmentDate, Long doctorId, Long animalId);
 
     boolean existsByAppointmentDateAndDoctor_IdAndAnimal_Id(LocalDateTime appointmentDate ,Long doctorId,Long animalId);
+
+    List<Appointment> findByAppointmentDateBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Appointment> findByAppointmentDateAfter(LocalDateTime startDate);
+    List<Appointment> findByAppointmentDateBefore(LocalDateTime endDate);
+
+    List<Appointment> findByDoctor_NameLikeIgnoreCase(String name);
+
 
 
 

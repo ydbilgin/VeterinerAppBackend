@@ -3,10 +3,7 @@ package dev.patika.spring.Controller;
 import dev.patika.spring.Dto.Request.AppointmentRequest;
 import dev.patika.spring.Dto.Request.DoctorRequest;
 import dev.patika.spring.Dto.Request.ReportRequest;
-import dev.patika.spring.Entity.Animal;
-import dev.patika.spring.Entity.Appointment;
-import dev.patika.spring.Entity.Doctor;
-import dev.patika.spring.Entity.Report;
+import dev.patika.spring.Entity.*;
 import dev.patika.spring.Repository.AnimalRepo;
 import dev.patika.spring.Repository.AppointmentRepo;
 import dev.patika.spring.Repository.DoctorRepo;
@@ -18,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,6 +148,33 @@ public class AppointmentController {
     public List<Appointment> findAll() {
         return appointmentService.findAllAppointments();
     }
+
+
+    @GetMapping("/doctor-name/{name}")
+    public List<Appointment> findByDoctorName(@PathVariable("name") String doctorName) {
+        return this.appointmentRepo.findByDoctor_NameLikeIgnoreCase("%" + doctorName + "%");
+    }
+
+
+    //http://localhost:8080/appointment/expiring/2023-12-25T08:00:00/2023-12-26T08:00:00
+    @GetMapping("/expiring/{startDate}/{endDate}")
+    public List<Appointment> getExpiringAppointments(@PathVariable("startDate") LocalDateTime startDate, @PathVariable("endDate") LocalDateTime endDate) {
+        return appointmentRepo.findByAppointmentDateBetween(startDate, endDate);
+    }
+
+    //http://localhost:8080/appointment/expiring-before/2023-12-28T00:00:00
+    @GetMapping("/expiring-before/{endDate}")
+    public List<Appointment> getExpiringVaccinesBeforeStart(@PathVariable LocalDateTime endDate) {
+        return appointmentRepo.findByAppointmentDateBefore(endDate);
+    }
+
+    //http://localhost:8080/appointment/expiring-after/2023-12-28T00:00:00
+    @GetMapping("/expiring-after/{endDate}")
+    public List<Appointment> getExpiringVaccinesAfterStart(@PathVariable LocalDateTime endDate) {
+        return appointmentRepo.findByAppointmentDateAfter(endDate);
+    }
+
+
 
 
 }

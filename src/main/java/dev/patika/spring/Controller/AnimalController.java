@@ -156,8 +156,25 @@ public class AnimalController {
     //DEĞERLENDİRME FORMU 16
     @GetMapping("/name/{name}")
     public List<Animal> findByName(@PathVariable("name") String name){
-        return this.animalRepo.findByAnimalNameIgnoreCase(name);
+        return this.animalRepo.findByNameLikeIgnoreCase("%"+name+"%");
     }
+
+    @GetMapping("/customer-name/{name}")
+    public List<Animal> findByCustomerName(@PathVariable("name") String customerName){
+        return this.animalRepo.findByCustomer_NameLikeIgnoreCase("%"+customerName+"%");
+    }
+
+    @GetMapping("/customer-animal/{animalName}-{customerName}")
+    public List<Animal> findByNameAndCustomerName(
+            @PathVariable("animalName") String animalName,
+            @PathVariable("customerName") String customerName
+    ) {
+        return this.animalRepo.findByNameStartingWithIgnoreCaseAndCustomer_NameStartingWithIgnoreCase(animalName, customerName);
+    }
+
+
+
+
 
 
 

@@ -109,7 +109,7 @@ public class CustomerController {
     //DEĞERLENDİRME FORMU 17
     @GetMapping("/name/{name}")
     public List<Customer> findByName(@PathVariable("name") String name){
-        return this.customerRepo.findByCustomerNameIgnoreCase(name);
+        return this.customerRepo.findByNameLikeIgnoreCase("%"+name+"%");
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable("id") long id) {

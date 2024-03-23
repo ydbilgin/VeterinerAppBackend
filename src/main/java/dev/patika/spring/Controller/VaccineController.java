@@ -140,5 +140,40 @@ public class VaccineController {
         List<Animal> animals = vaccineService.getAnimalsWithExpiringVaccines(startDate, endDate);
         return ResponseEntity.ok(animals);
     }
+    //http://localhost:8080/vaccine/expiring/2024-01-05/2025-12-07
+    @GetMapping("/expiring/{startDate}/{endDate}")
+    public List<Vaccine> getExpiringVaccines(@PathVariable("startDate") LocalDate startDate, @PathVariable("endDate") LocalDate endDate) {
+        return vaccineService.getExpiringVaccines(startDate, endDate);
+    }
+
+    //http://localhost:8080/vaccine/expiring-before/2024-11-30
+    @GetMapping("/expiring-before/{endDate}")
+    public List<Vaccine> getExpiringVaccinesBeforeStart(@PathVariable LocalDate endDate) {
+        return vaccineRepository.findByProtectionFinishDateBefore(endDate);
+    }
+
+    @GetMapping("/expiring-after/{endDate}")
+    public List<Vaccine> getExpiringVaccinesAfterStart(@PathVariable LocalDate endDate) {
+        return vaccineRepository.findByProtectionFinishDateAfter(endDate);
+    }
+
+
+    @GetMapping("/animal-name/{name}")
+    public List<Vaccine> findByAnimalName(@PathVariable("name") String animalName){
+        return this.vaccineRepository.findByAnimal_NameLikeIgnoreCase("%"+animalName+"%");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

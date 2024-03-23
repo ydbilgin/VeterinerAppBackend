@@ -15,6 +15,9 @@ public interface CustomerRepo extends JpaRepository<Customer,Long> {
     Customer findByName(String name);
     @Query("SELECT c FROM Customer c WHERE LOWER(c.name) = LOWER(:name)")
     List<Customer> findByCustomerNameIgnoreCase(@Param("name") String name);
+
+    public List<Customer> findByNameLikeIgnoreCase(String name);
+
     boolean existsByPhone(String phone);
 
 
