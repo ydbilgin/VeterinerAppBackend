@@ -45,9 +45,7 @@ public class AnimalController {
                     animalRequest.getBreed() == null ||animalRequest.getBreed().isEmpty() ||
                     animalRequest.getSpecies() == null ||animalRequest.getSpecies().isEmpty()||
                     animalRequest.getDateOfBirth() == null ||
-            animalRequest.getCustomer() == null ||
-                    animalRequest.getCustomer().getId() == null ||
-                    animalRequest.getCustomer().getName() == null
+                    animalRequest.getCustomer() == null
             ) {
                 throw new IllegalArgumentException("Hayvana ait alanlar boş olamaz.");
             }
@@ -86,9 +84,7 @@ public class AnimalController {
                     animalRequest.getBreed() == null ||animalRequest.getBreed().isEmpty() ||
                     animalRequest.getSpecies() == null ||animalRequest.getSpecies().isEmpty()||
                     animalRequest.getDateOfBirth() == null ||
-                    animalRequest.getCustomer() == null ||
-                    animalRequest.getCustomer().getId() == null ||
-                    animalRequest.getCustomer().getName() == null
+                    animalRequest.getCustomer() == null
             ) {
                 throw new IllegalArgumentException("Hayvana ait alanlar boş olamaz.");
             }

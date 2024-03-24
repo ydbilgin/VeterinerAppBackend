@@ -37,24 +37,31 @@ public class DoctorController {
     //DEĞERLENDİRME FORMU 12
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Doctor doctor) {
-        if (doctor.getCity() == null || doctor.getCity().isEmpty() ||
-                doctor.getPhone() == null || doctor.getPhone().isEmpty() ||
-                doctor.getMail() == null || doctor.getMail().isEmpty() ||
-                doctor.getAddress() == null || doctor.getAddress().isEmpty() ||
-                doctor.getName() == null || doctor.getName().isEmpty()) {
-            throw new RuntimeException("Tüm alanları doldurunuz!");
+        try {
+            if (doctor.getCity() == null || doctor.getCity().isEmpty() ||
+                    doctor.getPhone() == null || doctor.getPhone().isEmpty() ||
+                    doctor.getMail() == null || doctor.getMail().isEmpty() ||
+                    doctor.getAddress() == null || doctor.getAddress().isEmpty() ||
+                    doctor.getName() == null || doctor.getName().isEmpty()) {
+                throw new RuntimeException("Tüm alanları doldurunuz!");
+            }
+
+            // Telefona göre doktor kontrolü
+            String phoneNumber = doctor.getPhone();
+            if (doctorRepo.existsByPhone(phoneNumber)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Bu doktor zaten mevcut.");
+            }
+
+
+            Doctor savedDoctor = doctorRepo.save(doctor);
+            return ResponseEntity.ok(savedDoctor);
+
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
-        // Telefona göre doktor kontrolü
-        String phoneNumber = doctor.getPhone();
-        if (doctorRepo.existsByPhone(phoneNumber)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Bu doktor zaten mevcut.");
-        }
 
-
-        Doctor savedDoctor = doctorRepo.save(doctor);
-        return ResponseEntity.ok(savedDoctor);
     }
 
 
