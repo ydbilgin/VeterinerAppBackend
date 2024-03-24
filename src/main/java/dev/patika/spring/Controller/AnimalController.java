@@ -71,7 +71,7 @@ public class AnimalController {
                     return ResponseEntity.notFound().build(); // Eğer id'ye sahip bir hayvan bulunamazsa 404 hatası döndürülür
                 }
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -139,7 +139,7 @@ public class AnimalController {
             Animal updatedAnimal = animalService.updateAnimal(id,convertedAnimal);
 
             return ResponseEntity.ok(updatedAnimal);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

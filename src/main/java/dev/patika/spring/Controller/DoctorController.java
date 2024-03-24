@@ -57,7 +57,7 @@ public class DoctorController {
             Doctor savedDoctor = doctorRepo.save(doctor);
             return ResponseEntity.ok(savedDoctor);
 
-        }catch (IllegalArgumentException e) {
+        }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
