@@ -16,7 +16,7 @@ public interface AnimalRepo extends JpaRepository<Animal,Long> {
 
     List<Animal> findByCustomer_Id(Long id);
     List<Animal> findByCustomer_NameLikeIgnoreCase(String name);
-    List<Animal> findByNameStartingWithIgnoreCaseAndCustomer_NameStartingWithIgnoreCase(String animalName,String customerName);
+    List<Animal> findByNameLikeIgnoreCaseAndCustomer_NameLikeIgnoreCase(String animalName,String customerName);
     @Query("SELECT a FROM Animal a WHERE LOWER(a.name) = LOWER(:name)")
     List<Animal> findByAnimalNameIgnoreCase(@Param("name") String name);
 

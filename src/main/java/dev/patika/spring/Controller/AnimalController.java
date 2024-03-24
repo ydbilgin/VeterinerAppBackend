@@ -169,7 +169,7 @@ public class AnimalController {
             @PathVariable("animalName") String animalName,
             @PathVariable("customerName") String customerName
     ) {
-        return this.animalRepo.findByNameStartingWithIgnoreCaseAndCustomer_NameStartingWithIgnoreCase(animalName, customerName);
+        return this.animalRepo.findByNameLikeIgnoreCaseAndCustomer_NameLikeIgnoreCase("%"+animalName+"%", "%"+customerName+"%");
     }
 
 
