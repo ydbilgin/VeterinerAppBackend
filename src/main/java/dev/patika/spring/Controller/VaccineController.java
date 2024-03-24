@@ -65,7 +65,7 @@ public class VaccineController {
 
             VaccineResponse response = vaccineService.saveVaccine(vaccineRequest);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

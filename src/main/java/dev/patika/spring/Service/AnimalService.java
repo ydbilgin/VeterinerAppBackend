@@ -115,7 +115,7 @@ public class AnimalService {
         try {
             // Güncelleme işlemi
             return appointmentRepo.save(appointment);
-        } catch (DataIntegrityViolationException e) {
+        } catch (Exception e) {
             // Veritabanı kısıtlaması hatası, isteğe bağlı olarak loglama veya uygun bir şekilde işleme alabilirsiniz
             throw new RuntimeException("Güncelleme işlemi sırasında veritabanı kısıtlaması hatası oluştu.", e);
         }
