@@ -39,6 +39,19 @@ public class AnimalController {
     @PostMapping("/save")
     public ResponseEntity<?> saveAnimal(@RequestBody AnimalRequest animalRequest) {
         try {
+            if (animalRequest.getGender() == null || animalRequest.getGender().isEmpty() ||
+                    animalRequest.getName() == null ||animalRequest.getName().isEmpty() ||
+                    animalRequest.getColour() == null ||animalRequest.getColour().isEmpty() ||
+                    animalRequest.getBreed() == null ||animalRequest.getBreed().isEmpty() ||
+                    animalRequest.getSpecies() == null ||animalRequest.getSpecies().isEmpty()||
+                    animalRequest.getDateOfBirth() == null ||
+            animalRequest.getCustomer() == null ||
+                    animalRequest.getCustomer().getId() == null ||
+                    animalRequest.getCustomer().getName() == null
+            ) {
+                throw new IllegalArgumentException("Hayvana ait alanlar boş olamaz.");
+            }
+
             // Eğer gelen istekte id değeri yoksa yeni bir hayvan kaydedilir
             if (animalRequest.getId() == null) {
                 Animal savedAnimal = animalService.saveAnimal(animalRequest);
@@ -67,6 +80,18 @@ public class AnimalController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAnimal(@PathVariable("id") Long id, @RequestBody AnimalRequest animalRequest) {
         try {
+            if (animalRequest.getGender() == null || animalRequest.getGender().isEmpty() ||
+                    animalRequest.getName() == null ||animalRequest.getName().isEmpty() ||
+                    animalRequest.getColour() == null ||animalRequest.getColour().isEmpty() ||
+                    animalRequest.getBreed() == null ||animalRequest.getBreed().isEmpty() ||
+                    animalRequest.getSpecies() == null ||animalRequest.getSpecies().isEmpty()||
+                    animalRequest.getDateOfBirth() == null ||
+                    animalRequest.getCustomer() == null ||
+                    animalRequest.getCustomer().getId() == null ||
+                    animalRequest.getCustomer().getName() == null
+            ) {
+                throw new IllegalArgumentException("Hayvana ait alanlar boş olamaz.");
+            }
 
             // Güncellenecek hayvanı id'ye göre bul
             Optional<Animal> optionalAnimal = animalRepo.findById(id);
