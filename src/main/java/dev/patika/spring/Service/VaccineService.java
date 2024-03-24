@@ -44,14 +44,7 @@ public class VaccineService {
 
     //aşı kaydetme
     public VaccineResponse saveVaccine(VaccineRequest vaccineRequest) {
-        if (vaccineRequest.getReport() == null || vaccineRequest.getName() == null ||
-                vaccineRequest.getAnimal() == null || vaccineRequest.getName().isEmpty() ||
-                vaccineRequest.getCode() == null || vaccineRequest.getCode().isEmpty() ||
-                vaccineRequest.getProtectionFinishDate() == null || vaccineRequest.getProtectionStartDate()==null ||
-                vaccineRequest.getAnimal().getId() == null || vaccineRequest.getReport().getId() ==null
-        ) {
-            throw new IllegalArgumentException("Aşıya ait alanlar boş olamaz.");
-        }
+
         Vaccine vaccine = new Vaccine();
         vaccine.setName(vaccineRequest.getName());
         vaccine.setCode(vaccineRequest.getCode());

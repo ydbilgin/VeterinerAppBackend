@@ -44,6 +44,16 @@ public class VaccineController {
     @PostMapping("/save")
     public ResponseEntity<?> createVaccine(@RequestBody VaccineRequest vaccineRequest) {
         try {
+            if (vaccineRequest.getReport() == null || vaccineRequest.getName() == null ||
+                    vaccineRequest.getAnimal() == null || vaccineRequest.getName().isEmpty() ||
+                    vaccineRequest.getCode() == null || vaccineRequest.getCode().isEmpty() ||
+                    vaccineRequest.getProtectionFinishDate() == null || vaccineRequest.getProtectionStartDate()==null ||
+                    vaccineRequest.getAnimal().getId() == null || vaccineRequest.getReport().getId() ==null
+            ) {
+                throw new IllegalArgumentException("Aşıya ait alanlar boş olamaz.");
+            }
+
+
             if (!vaccineService.isAnimalExist(vaccineRequest.getAnimal().getId())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("Belirtilen id'de hayvan mevcut değil");
