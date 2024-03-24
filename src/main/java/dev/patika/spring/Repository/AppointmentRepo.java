@@ -26,8 +26,13 @@ public interface AppointmentRepo extends JpaRepository<Appointment,Long> {
 
     List<Appointment> findByAppointmentDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+
     List<Appointment> findByAppointmentDateAfter(LocalDateTime startDate);
+
     List<Appointment> findByAppointmentDateBefore(LocalDateTime endDate);
+    List<Appointment> findByAppointmentDateBetweenAndDoctor_NameLikeIgnoreCase(LocalDateTime startDate, LocalDateTime endDate,String doctorName);
+    List<Appointment> findByAppointmentDateAfterAndDoctor_NameLikeIgnoreCase(LocalDateTime startDate,String name);
+    List<Appointment> findByAppointmentDateBeforeAndDoctor_NameLikeIgnoreCase(LocalDateTime endDate,String name);
 
     List<Appointment> findByDoctor_NameLikeIgnoreCase(String name);
 

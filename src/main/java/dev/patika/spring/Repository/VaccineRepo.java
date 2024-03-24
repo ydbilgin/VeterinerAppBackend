@@ -44,6 +44,10 @@ public interface VaccineRepo extends JpaRepository<Vaccine, Long> {
 
     List<Vaccine> findByProtectionFinishDateAfter(LocalDate startDate);
     List<Vaccine> findByProtectionFinishDateBefore(LocalDate endDate);
+    List<Vaccine> findByProtectionFinishDateBetweenAndAnimal_NameLikeIgnoreCase(LocalDate startDate, LocalDate endDate,String name);
+
+    List<Vaccine> findByProtectionFinishDateAfterAndAnimal_NameLikeIgnoreCase(LocalDate startDate,String name);
+    List<Vaccine> findByProtectionFinishDateBeforeAndAnimal_NameLikeIgnoreCase(LocalDate endDate,String name);
 
 
     List<Vaccine> findByAnimal_NameLikeIgnoreCase(String name);

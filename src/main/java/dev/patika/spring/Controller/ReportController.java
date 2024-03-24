@@ -48,29 +48,35 @@ public class ReportController {
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Report report)
     {
-        if (report.getTitle() == null || report.getTitle().isEmpty() ||
-                report.getDiagnosis() == null ||report.getDiagnosis().isEmpty() ||
-                report.getPrice() == null ||
-                report.getAppointment() == null ||report.getAppointment().getId()==null
-                ) {
-            throw new IllegalArgumentException("Rapora ait alanlar boş olamaz.");
-        }
-        if (!reportService.isAppointmentExist(report.getAppointment().getId())){
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Belirtilen ID'de bir randevu bulunmuyor.");
+        try {
+            if (report.getTitle() == null || report.getTitle().isEmpty() ||
+                    report.getDiagnosis() == null ||report.getDiagnosis().isEmpty() ||
+                    report.getPrice() == null ||
+                    report.getAppointment() == null ||report.getAppointment().getId()==null
+            ) {
+                throw new IllegalArgumentException("Rapora ait alanlar boş olamaz.");
+            }
+            if (!reportService.isAppointmentExist(report.getAppointment().getId())){
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Belirtilen ID'de bir randevu bulunmuyor.");
+            }
+
+            if (reportRepo.existsByTitleAndAppointment_Id(report.getTitle(),report.getAppointment().getId())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bu rapor zaten mevcut!");
+            }
+
+            Appointment appointment = report.getAppointment();
+            if (report.getAppointment() != null) {
+                Optional<Appointment> existingAppointment = appointmentRepo.findById(report.getAppointment().getId());
+                existingAppointment.ifPresent(report::setAppointment);
+            }
+
+            Report savedReport = reportRepo.save(report);
+            return ResponseEntity.ok(savedReport);
+
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
-        if (reportRepo.existsByTitleAndAppointment_Id(report.getTitle(),report.getAppointment().getId())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bu rapor zaten mevcut!");
-        }
-
-        Appointment appointment = report.getAppointment();
-        if (report.getAppointment() != null) {
-            Optional<Appointment> existingAppointment = appointmentRepo.findById(report.getAppointment().getId());
-            existingAppointment.ifPresent(report::setAppointment);
-        }
-
-        Report savedReport = reportRepo.save(report);
-        return ResponseEntity.ok(savedReport);
     }
 
 
